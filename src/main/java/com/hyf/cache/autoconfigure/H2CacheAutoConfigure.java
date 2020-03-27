@@ -1,9 +1,8 @@
 package com.hyf.cache.autoconfigure;
 
-import com.hyf.cache.ehcache.EhCacheConfiguration;
-import com.hyf.cache.manager.MyCacheManagerConfiguration;
+import com.hyf.cache.ehcache.H2CacheEhCacheConfiguration;
+import com.hyf.cache.manager.H2CacheManagerConfiguration;
 import com.hyf.cache.properties.H2CacheEhCacheProperties;
-import com.hyf.cache.properties.H2CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,8 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @EnableCaching
-@Import({EhCacheConfiguration.class, MyCacheManagerConfiguration.class})
-@EnableConfigurationProperties({H2CacheEhCacheProperties.class, H2CacheProperties.class})
+@Import({H2CacheEhCacheConfiguration.class, H2CacheManagerConfiguration.class})
+@EnableConfigurationProperties({H2CacheEhCacheProperties.class})
 public class H2CacheAutoConfigure {
 
 }

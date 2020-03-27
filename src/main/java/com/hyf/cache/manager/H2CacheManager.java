@@ -1,6 +1,6 @@
 package com.hyf.cache.manager;
 
-import com.hyf.cache.cachetemplate.MyCacheTemplate;
+import com.hyf.cache.cachetemplate.H2CacheTemplate;
 import lombok.Data;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -14,14 +14,14 @@ import java.util.Collections;
  * @date 2020/3/25
  */
 @Data
-public class MyCacheManager implements CacheManager {
+public class H2CacheManager implements CacheManager {
 
-    private MyCacheTemplate myCacheTemplate;
+    private H2CacheTemplate h2CacheTemplate;
 
     @Override
     public Cache getCache(String name) {
-        this.myCacheTemplate.setName(name);
-        return this.myCacheTemplate;
+        this.h2CacheTemplate.setName(name);
+        return this.h2CacheTemplate;
     }
 
     @Override

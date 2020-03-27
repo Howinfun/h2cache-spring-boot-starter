@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyCacheTemplate implements Cache {
+public class H2CacheTemplate implements Cache {
 
     private EhCacheCacheManager ehCacheCacheManager;
     private RedisCacheManager redisCacheManager;
@@ -37,15 +37,16 @@ public class MyCacheTemplate implements Cache {
 
     @Override
     public ValueWrapper get(Object key) {
+
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        if(ehCache.get(key) != null){
-            log.info("取数据ehcache库===key:{}",key);
+        if(null != ehCache && null != ehCache.get(key)){
+            log.info("取数据 ehcache 库===key:{}",key);
             return ehCache.get(key);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
-        if(redisCache.get(key)!=null){
-            log.info("取数据reids库===key:{}",key);
+        if(null != redisCache && null != redisCache.get(key)){
+            log.info("取数据 redis 库===key:{}",key);
             // 将数据存入到 ehcache
             ehCache.put(key,redisCache.get(key).get());
             return redisCache.get(key);
@@ -68,12 +69,16 @@ public class MyCacheTemplate implements Cache {
     public void put(Object key, Object value) {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        log.info("插入ehcache库===key:{},value:{}",key,value);
-        ehCache.put(key,value);
+        if (null != ehCache){
+            log.info("插入 ehcache 库===key:{},value:{}",key,value);
+            ehCache.put(key,value);
+        }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
-        log.info("插入reids库===key:{},value:{}",key,value);
-        redisCache.put(key,value);
+        if (null != redisCache){
+            log.info("插入 redis 库===key:{},value:{}",key,value);
+            redisCache.put(key,value);
+        }
 
     }
 
@@ -86,20 +91,30 @@ public class MyCacheTemplate implements Cache {
     public void evict(Object key) {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        log.info("删除ehcache库===key:{}",key);
-        ehCache.evict(key);
+        if (null != ehCache) {
+            log.info("删除 ehcache 库===key:{}", key);
+            ehCache.evict(key);
+        }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
-        log.info("删除reids库===key:{}",key);
-        redisCache.evict(key);
+        if (null != redisCache) {
+            log.info("删除 redis 库===key:{}", key);
+            redisCache.evict(key);
+        }
     }
 
     @Override
     public void clear() {
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        ehCache.clear();
+        if (null != ehCache) {
+            log.info("清空 ehcache 库");
+            ehCache.clear();
+        }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
-        redisCache.clear();
+        if (null != redisCache) {
+            log.info("清空 redis 库");
+            redisCache.clear();
+        }
     }
 }
