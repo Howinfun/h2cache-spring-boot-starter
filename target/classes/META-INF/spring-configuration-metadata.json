@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "h2cache.service.ehcache",
+      "type": "com.hyf.cache.properties.H2CacheEhCacheProperties",
+      "sourceType": "com.hyf.cache.properties.H2CacheEhCacheProperties"
+    },
+    {
+      "name": "h2cache.service.redis",
+      "type": "com.hyf.cache.properties.H2CacheRedisProperties",
+      "sourceType": "com.hyf.cache.properties.H2CacheRedisProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "h2cache.service.ehcache.file-path",
+      "type": "java.lang.String",
+      "sourceType": "com.hyf.cache.properties.H2CacheEhCacheProperties"
+    },
+    {
+      "name": "h2cache.service.redis.config-list",
+      "type": "java.util.List<com.hyf.cache.polo.H2CacheRedisConfig>",
+      "sourceType": "com.hyf.cache.properties.H2CacheRedisProperties"
+    },
+    {
+      "name": "h2cache.service.redis.default-config",
+      "type": "com.hyf.cache.polo.H2CacheRedisDefault",
+      "sourceType": "com.hyf.cache.properties.H2CacheRedisProperties"
+    }
+  ],
+  "hints": []
+}

@@ -8,7 +8,8 @@ import lombok.Data;
  * @date 2020/3/27
  */
 @Data
-public class RedisDefault {
+public class H2CacheRedisDefault {
 
     private Integer ttl;
+    private Boolean disableNullValues = false;
 }
