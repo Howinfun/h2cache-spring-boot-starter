@@ -1,6 +1,6 @@
 package com.hyf.cache.manager;
 
-import com.hyf.cache.cachetemplate.H2CacheTemplate;
+import com.hyf.cache.cachetemplate.H2CacheCache;
 import lombok.Data;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -10,18 +10,19 @@ import java.util.Collections;
 
 /**
  * @author Howinfun
- * @desc
+ * @desc H2CacheManager -> Control which cacheName of L2 cache to use
  * @date 2020/3/25
+ * @email 876237770@qq.com
  */
 @Data
 public class H2CacheManager implements CacheManager {
 
-    private H2CacheTemplate h2CacheTemplate;
+    private H2CacheCache h2CacheCache;
 
     @Override
     public Cache getCache(String name) {
-        this.h2CacheTemplate.setName(name);
-        return this.h2CacheTemplate;
+        this.h2CacheCache.setName(name);
+        return this.h2CacheCache;
     }
 
     @Override

@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author howinfun
  * @version 1.0
- * @desc
+ * @desc H2Cache Redis Configuration -> conditional on missing bean RedisCacheManager.class
  * @date 2020/3/29
  * @email 876237770@qq.com
  */
@@ -36,7 +36,7 @@ import java.util.Map;
 @ConditionalOnClass(RedisCache.class)
 @ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
 @Slf4j
-public class H2CacheRedisConfiguratin {
+public class H2CacheRedisConfiguration {
 
     @Resource
     private H2CacheRedisProperties properties;
@@ -63,11 +63,13 @@ public class H2CacheRedisConfiguratin {
                             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
                             .disableCachingNullValues();
                 }
+                log.info("H2CacheRedisManager : Configuration of default is successfully");
             }else {
                 defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                         .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
                         .disableCachingNullValues();
+                log.info("H2CacheRedisManager : Configuration of default is successfully");
             }
 
             List<H2CacheRedisConfig> configList = properties.getConfigList();
@@ -91,7 +93,7 @@ public class H2CacheRedisConfiguratin {
                                     .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
                                     .disableCachingNullValues();
                         }
-                        log.info("Confituration of cacheName {} is successfully",h2CacheRedisConfig.getCacheName());
+                        log.info("H2CacheRedisManager : Configuration of cacheName {} is successfully",h2CacheRedisConfig.getCacheName());
                         cacheConfigurations.put(h2CacheRedisConfig.getCacheName(),tempConfig);
                     }
                 }

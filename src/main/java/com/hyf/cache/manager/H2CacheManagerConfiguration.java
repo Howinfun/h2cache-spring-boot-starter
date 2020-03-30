@@ -1,6 +1,6 @@
 package com.hyf.cache.manager;
 
-import com.hyf.cache.cachetemplate.H2CacheTemplate;
+import com.hyf.cache.cachetemplate.H2CacheCache;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
@@ -12,28 +12,29 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 
 /**
  * @author Howinfun
- * @desc
+ * @desc H2CacheManager Configuration ->
  * @date 2020/3/27
+ * @email 876237770@qq.com
  */
 @Configuration
 @ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
 public class H2CacheManagerConfiguration {
 
     @Bean
-    @ConditionalOnBean({RedisCacheManager.class, EhCacheCacheManager.class})
-    public H2CacheTemplate myCacheTemplate(RedisCacheManager redisCacheManager, EhCacheCacheManager ehCacheCacheManager){
-        H2CacheTemplate h2CacheTemplate = new H2CacheTemplate();
-        h2CacheTemplate.setRedisCacheManager(redisCacheManager);
-        h2CacheTemplate.setEhCacheCacheManager(ehCacheCacheManager);
-        return h2CacheTemplate;
+    public H2CacheCache h2CacheCache(RedisCacheManager redisCacheManager, EhCacheCacheManager ehCacheCacheManager){
+
+        H2CacheCache h2CacheCache = new H2CacheCache();
+        h2CacheCache.setRedisCacheManager(redisCacheManager);
+        h2CacheCache.setEhCacheCacheManager(ehCacheCacheManager);
+        return h2CacheCache;
     }
 
     @Bean
-    @ConditionalOnBean(H2CacheTemplate.class)
+    @ConditionalOnBean(H2CacheCache.class)
     @Primary
-    public CacheManager cacheManager(H2CacheTemplate h2CacheTemplate){
+    public CacheManager cacheManager(H2CacheCache h2CacheCache){
         H2CacheManager h2CacheManager = new H2CacheManager();
-        h2CacheManager.setH2CacheTemplate(h2CacheTemplate);
+        h2CacheManager.setH2CacheCache(h2CacheCache);
         return h2CacheManager;
     }
 }

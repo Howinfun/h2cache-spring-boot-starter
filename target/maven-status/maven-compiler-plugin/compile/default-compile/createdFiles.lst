@@ -1,4 +1,3 @@
-com\hyf\cache\redis\H2CacheRedisConfiguratin.class
 com\hyf\cache\exception\H2CacheRedisException.class
 com\hyf\cache\properties\H2CacheRedisProperties.class
 com\hyf\cache\manager\H2CacheManagerConfiguration.class
@@ -6,7 +5,8 @@ com\hyf\cache\properties\H2CacheEhCacheProperties.class
 com\hyf\cache\ehcache\H2CacheEhCacheConfiguration.class
 META-INF\spring-configuration-metadata.json
 com\hyf\cache\autoconfigure\H2CacheAutoConfigure.class
-com\hyf\cache\cachetemplate\H2CacheTemplate.class
 com\hyf\cache\manager\H2CacheManager.class
 com\hyf\cache\polo\H2CacheRedisConfig.class
+com\hyf\cache\cachetemplate\H2CacheCache.class
 com\hyf\cache\polo\H2CacheRedisDefault.class
+com\hyf\cache\redis\H2CacheRedisConfiguration.class

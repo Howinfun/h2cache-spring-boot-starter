@@ -3,7 +3,7 @@ package com.hyf.cache.exception;
 /**
  * @author howinfun
  * @version 1.0
- * @desc
+ * @desc Custom Exception
  * @date 2020/3/29
  * @email 876237770@qq.com
  */
