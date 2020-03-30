@@ -11,8 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @email 876237770@qq.com
  */
 @Data
-@ConfigurationProperties("h2cache.service.ehcache")
-@ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
+@ConfigurationProperties("h2cache.ehcache")
+@ConditionalOnProperty(prefix = "h2cache", value = "enabled", havingValue = "true")
 public class H2CacheEhCacheProperties {
 
     private String filePath;

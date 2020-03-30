@@ -15,8 +15,8 @@ import java.util.List;
  * @email 876237770@qq.com
  */
 @Data
-@ConfigurationProperties("h2cache.service.redis")
-@ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
+@ConfigurationProperties("h2cache.redis")
+@ConditionalOnProperty(prefix = "h2cache", value = "enabled", havingValue = "true")
 public class H2CacheRedisProperties {
 
     private H2CacheRedisDefault defaultConfig;

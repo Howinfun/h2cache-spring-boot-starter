@@ -17,7 +17,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
  * @email 876237770@qq.com
  */
 @Configuration
-@ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "h2cache", value = "enabled", havingValue = "true")
 public class H2CacheManagerConfiguration {
 
     @Bean

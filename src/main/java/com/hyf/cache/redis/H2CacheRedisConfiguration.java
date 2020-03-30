@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Configuration
 @ConditionalOnClass(RedisCache.class)
-@ConditionalOnProperty(prefix = "h2cache.service", value = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "h2cache", value = "enabled", havingValue = "true")
 @Slf4j
 public class H2CacheRedisConfiguration {
 
@@ -48,20 +48,20 @@ public class H2CacheRedisConfiguration {
         try {
 
             RedisCacheManager redisCacheManager;
+            RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory);
+
             H2CacheRedisDefault redisDefault = properties.getDefaultConfig();
             RedisCacheConfiguration defaultConfig;
             if (null != redisDefault){
-                if (false == redisDefault.getDisableNullValues()){
-                    defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-                            .entryTtl(Duration.ofSeconds(redisDefault.getTtl()))
-                            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
-                }else {
-                    defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-                            .entryTtl(Duration.ofSeconds(redisDefault.getTtl()))
-                            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
-                            .disableCachingNullValues();
+                defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
+                        .entryTtl(Duration.ofSeconds(redisDefault.getTtl()))
+                        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
+                if (redisDefault.getDisableNullValues()){
+                    defaultConfig = defaultConfig.disableCachingNullValues();
+                }
+                if (!redisDefault.getUsePrefix()){
+                    defaultConfig = defaultConfig.disableKeyPrefix();
                 }
                 log.info("H2CacheRedisManager : Configuration of default is successfully");
             }else {
@@ -71,6 +71,7 @@ public class H2CacheRedisConfiguration {
                         .disableCachingNullValues();
                 log.info("H2CacheRedisManager : Configuration of default is successfully");
             }
+            builder.cacheDefaults(defaultConfig);
 
             List<H2CacheRedisConfig> configList = properties.getConfigList();
             Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>(configList.size());
@@ -80,36 +81,23 @@ public class H2CacheRedisConfiguration {
                 for (H2CacheRedisConfig h2CacheRedisConfig : configList) {
                     RedisCacheConfiguration tempConfig;
                     if (null != h2CacheRedisConfig.getCacheName() && !"".equals(h2CacheRedisConfig.getCacheName())){
+                        tempConfig = RedisCacheConfiguration.defaultCacheConfig()
+                                .entryTtl(Duration.ofSeconds(h2CacheRedisConfig.getTtl()))
+                                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
                         if (h2CacheRedisConfig.getDisableNullValues()){
-                            tempConfig = RedisCacheConfiguration.defaultCacheConfig()
-                                    .entryTtl(Duration.ofSeconds(h2CacheRedisConfig.getTtl()))
-                                    .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                                    .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
-                                    .disableCachingNullValues();
-                        }else {
-                            tempConfig = RedisCacheConfiguration.defaultCacheConfig()
-                                    .entryTtl(Duration.ofSeconds(h2CacheRedisConfig.getTtl()))
-                                    .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
-                                    .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()))
-                                    .disableCachingNullValues();
+                            tempConfig = tempConfig.disableCachingNullValues();
+                        }
+                        if (!h2CacheRedisConfig.getUsePrefix()){
+                            tempConfig = tempConfig.disableKeyPrefix();
                         }
                         log.info("H2CacheRedisManager : Configuration of cacheName {} is successfully",h2CacheRedisConfig.getCacheName());
                         cacheConfigurations.put(h2CacheRedisConfig.getCacheName(),tempConfig);
                     }
                 }
-
-                redisCacheManager = RedisCacheManager.builder(connectionFactory)
-                        .cacheDefaults(defaultConfig)
-                        .withInitialCacheConfigurations(cacheConfigurations)
-                        .transactionAware()
-                        .build();
-                return redisCacheManager;
+                builder.withInitialCacheConfigurations(cacheConfigurations);
             }
-            redisCacheManager = RedisCacheManager.builder(connectionFactory)
-                    .cacheDefaults(defaultConfig)
-                    .transactionAware()
-                    .build();
-
+            redisCacheManager = builder.build();
             return redisCacheManager;
         }catch (Exception e){
             log.error("H2Cache load redis config error;{}",e.getMessage());

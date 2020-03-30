@@ -12,5 +12,6 @@ import lombok.Data;
 public class H2CacheRedisDefault {
 
     private Integer ttl;
+    private Boolean usePrefix = true;
     private Boolean disableNullValues = false;
 }

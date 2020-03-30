@@ -14,5 +14,6 @@ public class H2CacheRedisConfig {
 
     private String cacheName;
     private Integer ttl;
+    private Boolean usePrefix = true;
     private Boolean disableNullValues = false;
 }
