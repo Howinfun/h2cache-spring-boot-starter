@@ -35,7 +35,7 @@ public class H2CacheEhCacheConfiguration {
                 EhCacheManagerFactoryBean();
         Resource resource = new ClassPathResource(properties.getFilePath());
         cacheManagerFactoryBean.setConfigLocation(resource);
-        cacheManagerFactoryBean.setShared(true);
+        cacheManagerFactoryBean.setShared(properties.getShared());
         cacheManagerFactoryBean.setCacheManagerName(CACHE_MANAGER_NAME);
         return cacheManagerFactoryBean;
     }
