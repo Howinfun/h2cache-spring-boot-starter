@@ -99,13 +99,13 @@
         </repository>
     </distributionManagement>
 
-    <profiles>
+    <!--<profiles>
         <profile>
             <id>disable-javadoc-doclint</id>
             <activation>
                 <jdk>[1.8,)</jdk>
             </activation>
-            <!-- java8版本导致javadoc打包编译失败时候，添加-->
+            &lt;!&ndash; java8版本导致javadoc打包编译失败时候，添加&ndash;&gt;
             <properties>
                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
             </properties>
@@ -185,7 +185,7 @@
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <!-- java8版本导致javadoc打包编译失败时候，添加-->
+                                &lt;!&ndash; java8版本导致javadoc打包编译失败时候，添加&ndash;&gt;
                                 <configuration>
                                     <additionalparam>${javadoc.opts}</additionalparam>
                                 </configuration>
@@ -196,7 +196,7 @@
             </build>
         </profile>
     </profiles>
-
+-->
 
 
 </project>
