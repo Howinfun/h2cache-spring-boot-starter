@@ -1,8 +1,8 @@
 package com.hyf.cache.redis;
 
 import com.hyf.cache.exception.H2CacheRedisException;
-import com.hyf.cache.polo.H2CacheRedisConfig;
-import com.hyf.cache.polo.H2CacheRedisDefault;
+import com.hyf.cache.pojo.H2CacheRedisConfig;
+import com.hyf.cache.pojo.H2CacheRedisDefault;
 import com.hyf.cache.properties.H2CacheRedisProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

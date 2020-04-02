@@ -16,5 +16,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class H2CacheEhCacheProperties {
 
     private String filePath;
-    private Boolean shared = true;
+    private Boolean shared = false;
 }
