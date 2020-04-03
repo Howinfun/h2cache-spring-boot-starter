@@ -11,10 +11,9 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import java.util.concurrent.Callable;
 
 /**
+ * custom cache
  * @author Howinfun
- * @desc H2CacheCache, L2 cache implementer
- * @date 2020/3/25
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Data
 @Slf4j
@@ -139,7 +138,7 @@ public class H2CacheCache implements Cache {
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
-            log.info("delete from ehcache,key:{}", key);
+            log.info("delete from redis,key:{}", key);
             redisCache.evict(key);
         }
     }

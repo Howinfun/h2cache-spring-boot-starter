@@ -9,10 +9,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
+ * custom cacheManager
  * @author Howinfun
- * @desc H2CacheManager -> Control which cacheName of L2 cache to use
- * @date 2020/3/25
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Data
 public class H2CacheManager implements CacheManager {

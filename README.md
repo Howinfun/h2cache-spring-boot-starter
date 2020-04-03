@@ -115,3 +115,27 @@ public interface UserMapper extends BaseMapper<User> {
     }
 }
 ```
+### Test Result
+query:We can see that the background print adds data to ehcache and redis,and then the next query will be from ehcache.
+```
+2020-04-03 09:55:09.691  INFO 5920 --- [nio-8080-exec-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-04-03 09:55:10.044  INFO 5920 --- [nio-8080-exec-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-04-03 09:55:10.051 DEBUG 5920 --- [nio-8080-exec-7] c.h.t.redis.BookMapper2.selectById       : ==>  Preparing: SELECT id,create_time,update_time,read_frequency,version,book_name FROM book WHERE id=? 
+2020-04-03 09:55:10.068 DEBUG 5920 --- [nio-8080-exec-7] c.h.t.redis.BookMapper2.selectById       : ==> Parameters: 51(Long)
+2020-04-03 09:55:10.107 DEBUG 5920 --- [nio-8080-exec-7] c.h.t.redis.BookMapper2.selectById       : <==      Total: 1
+2020-04-03 09:55:10.113  INFO 5920 --- [nio-8080-exec-7] c.hyf.cache.cachetemplate.H2CacheCache   : insert into ehcache,key:51,value:Book2(id=51, bookName=微服务架构, readFrequency=1, createTime=2020-03-20T16:10:13, updateTime=2020-03-27T09:14:44, version=1)
+2020-04-03 09:55:10.118  INFO 5920 --- [nio-8080-exec-7] c.hyf.cache.cachetemplate.H2CacheCache   : insert into redis,key:51,value:Book2(id=51, bookName=微服务架构, readFrequency=1, createTime=2020-03-20T16:10:13, updateTime=2020-03-27T09:14:44, version=1)
+
+2020-04-03 09:55:31.864  INFO 5920 --- [nio-8080-exec-2] c.hyf.cache.cachetemplate.H2CacheCache   : select from ehcache,key:51
+```
+
+delete：We can see that the background print delete data from ehcache and redis.
+```
+2020-04-03 10:05:18.704 DEBUG 5920 --- [nio-8080-exec-3] c.h.t.redis.BookMapper2.deleteById       : ==>  Preparing: DELETE FROM book WHERE id=? 
+2020-04-03 10:05:18.704 DEBUG 5920 --- [nio-8080-exec-3] c.h.t.redis.BookMapper2.deleteById       : ==> Parameters: 51(Long)
+2020-04-03 10:05:18.731 DEBUG 5920 --- [nio-8080-exec-3] c.h.t.redis.BookMapper2.deleteById       : <==    Updates: 1
+2020-04-03 10:05:18.732  INFO 5920 --- [nio-8080-exec-3] c.hyf.cache.cachetemplate.H2CacheCache   : delete from ehcache,key:51
+2020-04-03 10:05:18.844  INFO 5920 --- [nio-8080-exec-3] c.hyf.cache.cachetemplate.H2CacheCache   : delete from redis,key:51
+```
+
+etc....

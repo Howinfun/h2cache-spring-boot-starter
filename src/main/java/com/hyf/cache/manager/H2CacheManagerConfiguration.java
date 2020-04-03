@@ -11,10 +11,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
 /**
+ * Custom CacheManager Config
  * @author Howinfun
- * @desc H2CacheManager Configuration ->
- * @date 2020/3/27
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Configuration
 @ConditionalOnProperty(prefix = "h2cache", value = "enabled", havingValue = "true")

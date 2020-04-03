@@ -11,10 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
+ * Auto Config
  * @author Howinfun
- * @desc H2Cache Auto Configure (spring.factories)
- * @date 2020/3/27
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Configuration
 @EnableCaching

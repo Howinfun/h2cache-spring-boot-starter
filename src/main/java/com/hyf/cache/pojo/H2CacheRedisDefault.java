@@ -3,10 +3,9 @@ package com.hyf.cache.pojo;
 import lombok.Data;
 
 /**
+ * Redis default config
  * @author Howinfun
- * @desc
- * @date 2020/3/27
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Data
 public class H2CacheRedisDefault {

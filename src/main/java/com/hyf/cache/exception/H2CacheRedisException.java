@@ -1,11 +1,9 @@
 package com.hyf.cache.exception;
 
 /**
+ * custom exception
  * @author howinfun
- * @version 1.0
- * @desc Custom Exception
- * @date 2020/3/29
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 public class H2CacheRedisException extends Exception{
 

@@ -9,10 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 
 /**
+ * Redis Properties
  * @author Howinfun
- * @desc
- * @date 2020/3/27
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Data
 @ConfigurationProperties("h2cache.redis")

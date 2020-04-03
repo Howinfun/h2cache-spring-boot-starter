@@ -26,11 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Redis Configuration
  * @author howinfun
- * @version 1.0
- * @desc H2Cache Redis Configuration -> conditional on missing bean RedisCacheManager.class
- * @date 2020/3/29
- * @email 876237770@qq.com
+ * @since 2020-04-01
  */
 @Configuration
 @ConditionalOnClass(RedisCache.class)
