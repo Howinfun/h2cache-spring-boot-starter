@@ -1,6 +1,6 @@
 ## What is h2cache-spring-boot-starter?
 
-Use spring-cache, and then integrate local cache [ehcache] and distributed cache [redis] to make secondary cache.
+Based on spring-cache,integrate local cache [ehcache] and distributed cache [redis] to make secondary cache.
 
 ## Getting started
 
