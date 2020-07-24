@@ -41,13 +41,13 @@ public class H2CacheCache implements Cache {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key)) {
-            log.info("select from ehcache,key:{}", key);
+            log.trace("select from ehcache,key:{}", key);
             return ehCache.get(key);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache && null != redisCache.get(key)) {
-            log.info("select from redis,key:{}", key);
+            log.trace("select from redis,key:{}", key);
             if (ehCache != null) {
                 ehCache.put(key, redisCache.get(key).get());
             }
@@ -62,13 +62,13 @@ public class H2CacheCache implements Cache {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, type)) {
-            log.info("select from ehcache,key:{},type:{}", key, type);
+            log.trace("select from ehcache,key:{},type:{}", key, type);
             return ehCache.get(key, type);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache && null != redisCache.get(key, type)) {
-            log.info("select from redis,key:{},type:{}", key, type);
+            log.trace("select from redis,key:{},type:{}", key, type);
             ehCache.put(key, redisCache.get(key).get());
             return redisCache.get(key, type);
         }
@@ -81,13 +81,13 @@ public class H2CacheCache implements Cache {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, valueLoader)) {
-            log.info("select from ehcache,key:{},valueLoader:{}", key, valueLoader);
+            log.trace("select from ehcache,key:{},valueLoader:{}", key, valueLoader);
             return ehCache.get(key, valueLoader);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache && null != redisCache.get(key, valueLoader)) {
-            log.info("select from redis,key:{},valueLoader:{}", key, valueLoader);
+            log.trace("select from redis,key:{},valueLoader:{}", key, valueLoader);
             ehCache.put(key, redisCache.get(key).get());
             return redisCache.get(key, valueLoader);
         }
@@ -100,13 +100,13 @@ public class H2CacheCache implements Cache {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
-            log.info("insert into ehcache,key:{},value:{}", key, value);
+            log.trace("insert into ehcache,key:{},value:{}", key, value);
             ehCache.put(key, value);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
-            log.info("insert into redis,key:{},value:{}", key, value);
+            log.trace("insert into redis,key:{},value:{}", key, value);
             redisCache.put(key, value);
         }
 
@@ -118,13 +118,13 @@ public class H2CacheCache implements Cache {
         ValueWrapper valueWrapper = null;
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
-            log.info("insert into ehcache,key:{},value:{}", key, value);
+            log.trace("insert into ehcache,key:{},value:{}", key, value);
             valueWrapper = ehCache.putIfAbsent(key, value);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
-            log.info("insert into redis,key:{},value:{}", key, value);
+            log.trace("insert into redis,key:{},value:{}", key, value);
             valueWrapper = redisCache.putIfAbsent(key, value);
         }
         return valueWrapper;
@@ -135,13 +135,13 @@ public class H2CacheCache implements Cache {
 
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
-            log.info("delete from ehcache,key:{}", key);
+            log.trace("delete from ehcache,key:{}", key);
             ehCache.evict(key);
         }
 
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
-            log.info("delete from redis,key:{}", key);
+            log.trace("delete from redis,key:{}", key);
             redisCache.evict(key);
         }
     }
