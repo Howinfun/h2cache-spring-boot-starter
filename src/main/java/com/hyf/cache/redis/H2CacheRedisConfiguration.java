@@ -52,7 +52,7 @@ public class H2CacheRedisConfiguration {
             RedisCacheConfiguration defaultConfig;
             if (null != redisDefault){
                 defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-                        .entryTtl(Duration.ofSeconds(redisDefault.getTtl()))
+                        .entryTtl(redisDefault.getTtl())
                         .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
                 if (redisDefault.getDisableNullValues()){
@@ -72,7 +72,7 @@ public class H2CacheRedisConfiguration {
             builder.cacheDefaults(defaultConfig);
 
             List<H2CacheRedisConfig> configList = properties.getConfigList();
-            Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>(configList.size());
+            Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
             if (null != configList && configList.size() > 0){
 

@@ -2,6 +2,8 @@ package com.hyf.cache.pojo;
 
 import lombok.Data;
 
+import java.time.Duration;
+
 /**
  * Redis default config
  * @author Howinfun
@@ -10,7 +12,7 @@ import lombok.Data;
 @Data
 public class H2CacheRedisDefault {
 
-    private Integer ttl;
+    private Duration ttl;
     private Boolean usePrefix = true;
     private Boolean disableNullValues = false;
 }
