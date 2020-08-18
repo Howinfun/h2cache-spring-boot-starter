@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * Custom CacheManager Config
@@ -19,10 +20,11 @@ public class H2CacheManagerConfiguration {
 
     @Bean
     @Primary
-    public CacheManager cacheManager(RedisCacheManager redisCacheManager, EhCacheCacheManager ehCacheCacheManager){
+    public CacheManager cacheManager(RedisCacheManager redisCacheManager, EhCacheCacheManager ehCacheCacheManager, StringRedisTemplate stringRedisTemplate){
         H2CacheManager h2CacheManager = new H2CacheManager();
         h2CacheManager.setRedisCacheManager(redisCacheManager);
         h2CacheManager.setEhCacheCacheManager(ehCacheCacheManager);
+        h2CacheManager.setStringRedisTemplate(stringRedisTemplate);
         return h2CacheManager;
     }
 }

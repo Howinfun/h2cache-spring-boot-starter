@@ -9,7 +9,7 @@
     </parent>-->
     <groupId>com.github.howinfun</groupId>
     <artifactId>h2cache-spring-boot-starter</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>h2cache-spring-boot-starter</name>
     <description>二级缓存</description>
     <url>https://github.com/Howinfun/h2cache-spring-boot-starter</url>
@@ -68,6 +68,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
         </dependency>
 
     </dependencies>

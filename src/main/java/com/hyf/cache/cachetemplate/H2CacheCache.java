@@ -1,5 +1,7 @@
 package com.hyf.cache.cachetemplate;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hyf.cache.constant.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -24,6 +29,7 @@ public class H2CacheCache implements Cache {
 
     private EhCacheCacheManager ehCacheCacheManager;
     private RedisCacheManager redisCacheManager;
+    private StringRedisTemplate stringRedisTemplate;
     private String name;
 
     @Override
@@ -133,12 +139,12 @@ public class H2CacheCache implements Cache {
     @Override
     public void evict(Object key) {
 
-        Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        if (null != ehCache) {
-            log.trace("delete from ehcache,key:{}", key);
-            ehCache.evict(key);
-        }
-
+//        Cache ehCache = ehCacheCacheManager.getCache(this.name);
+//        if (null != ehCache) {
+//            log.trace("delete from ehcache,key:{}", key);
+//            ehCache.evict(key);
+//        }
+        sendMessage(key);
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
             log.trace("delete from redis,key:{}", key);
@@ -148,16 +154,26 @@ public class H2CacheCache implements Cache {
 
     @Override
     public void clear() {
-        Cache ehCache = ehCacheCacheManager.getCache(this.name);
-        if (null != ehCache) {
-            log.info("clear ehcache");
-            ehCache.clear();
-        }
-
+//        Cache ehCache = ehCacheCacheManager.getCache(this.name);
+//        if (null != ehCache) {
+//            log.info("clear ehcache");
+//            ehCache.clear();
+//        }
+        sendMessage(null);
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
             log.info("clear redis");
             redisCache.clear();
         }
+    }
+
+    private void sendMessage(Object key) {
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("name",this.name);
+        if( null != key ){
+            params.put("key",key);
+        }
+        String message = JSONObject.toJSONString(params);
+        stringRedisTemplate.convertAndSend(Constant.H2CACHECACHEEVICTDISTRIBUTION, message);
     }
 }
