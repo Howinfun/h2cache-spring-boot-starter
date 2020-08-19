@@ -5,7 +5,6 @@ import com.hyf.cache.manager.H2CacheManagerConfiguration;
 import com.hyf.cache.properties.H2CacheEhCacheProperties;
 import com.hyf.cache.properties.H2CacheRedisProperties;
 import com.hyf.cache.redis.H2CacheRedisConfiguration;
-import com.hyf.cache.redis.RedisMessageReceiver;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
