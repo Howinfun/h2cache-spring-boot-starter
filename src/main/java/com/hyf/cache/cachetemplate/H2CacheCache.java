@@ -137,8 +137,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public void evict(Object key) {
-
+    public void evict(Object keyParam) {
+        String key = JSONObject.toJSONString(keyParam);
 //        Cache ehCache = ehCacheCacheManager.getCache(this.name);
 //        if (null != ehCache) {
 //            log.trace("delete from ehcache,key:{}", key);
