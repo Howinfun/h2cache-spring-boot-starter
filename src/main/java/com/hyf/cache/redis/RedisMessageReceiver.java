@@ -18,10 +18,12 @@ public class RedisMessageReceiver {
         if(name != null && !"".equals(name)){
             Cache ehCache = ehCacheCacheManager.getCache(name);
             if (null != ehCache) {
-                Object key = json.get("name");
+                Object key = json.get("key");
                 if(null != key){
+                    log.info("清除缓存,name:[{}],key:[{}]",name,key);
                     ehCache.evict(key);
                 }else{
+                    log.info("清除缓存,name:[{}]",name);
                     ehCache.clear();
                 }
             }
