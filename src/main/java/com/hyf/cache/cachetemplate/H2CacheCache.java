@@ -43,8 +43,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public ValueWrapper get(Object key) {
-
+    public ValueWrapper get(Object keyParam) {
+        String key = JSONObject.toJSONString(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key)) {
             log.trace("select from ehcache,key:{}", key);
@@ -64,8 +64,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public <T> T get(Object key, Class<T> type) {
-
+    public <T> T get(Object keyParam, Class<T> type) {
+        String key = JSONObject.toJSONString(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, type)) {
             log.trace("select from ehcache,key:{},type:{}", key, type);
@@ -83,8 +83,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public <T> T get(Object key, Callable<T> valueLoader) {
-
+    public <T> T get(Object keyParam, Callable<T> valueLoader) {
+        String key = JSONObject.toJSONString(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, valueLoader)) {
             log.trace("select from ehcache,key:{},valueLoader:{}", key, valueLoader);
@@ -102,8 +102,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public void put(Object key, Object value) {
-
+    public void put(Object keyParam, Object value) {
+        String key = JSONObject.toJSONString(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
             log.trace("insert into ehcache,key:{},value:{}", key, value);
@@ -119,8 +119,8 @@ public class H2CacheCache implements Cache {
     }
 
     @Override
-    public ValueWrapper putIfAbsent(Object key, Object value) {
-
+    public ValueWrapper putIfAbsent(Object keyParam, Object value) {
+        String key = JSONObject.toJSONString(keyParam);
         ValueWrapper valueWrapper = null;
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
