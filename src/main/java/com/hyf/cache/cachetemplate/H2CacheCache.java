@@ -44,7 +44,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public ValueWrapper get(Object keyParam) {
-        String key = JSONObject.toJSONString(keyParam);
+        String key = getKey(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key)) {
             log.trace("select from ehcache,key:{}", key);
@@ -65,7 +65,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public <T> T get(Object keyParam, Class<T> type) {
-        String key = JSONObject.toJSONString(keyParam);
+        String key = getKey(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, type)) {
             log.trace("select from ehcache,key:{},type:{}", key, type);
@@ -84,7 +84,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public <T> T get(Object keyParam, Callable<T> valueLoader) {
-        String key = JSONObject.toJSONString(keyParam);
+        String key = getKey(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache && null != ehCache.get(key, valueLoader)) {
             log.trace("select from ehcache,key:{},valueLoader:{}", key, valueLoader);
@@ -103,7 +103,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public void put(Object keyParam, Object value) {
-        String key = JSONObject.toJSONString(keyParam);
+        String key = getKey(keyParam);
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
             log.trace("insert into ehcache,key:{},value:{}", key, value);
@@ -120,7 +120,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public ValueWrapper putIfAbsent(Object keyParam, Object value) {
-        String key = JSONObject.toJSONString(keyParam);
+        String key = getKey(keyParam);
         ValueWrapper valueWrapper = null;
         Cache ehCache = ehCacheCacheManager.getCache(this.name);
         if (null != ehCache) {
@@ -138,12 +138,7 @@ public class H2CacheCache implements Cache {
 
     @Override
     public void evict(Object keyParam) {
-        String key = JSONObject.toJSONString(keyParam);
-//        Cache ehCache = ehCacheCacheManager.getCache(this.name);
-//        if (null != ehCache) {
-//            log.trace("delete from ehcache,key:{}", key);
-//            ehCache.evict(key);
-//        }
+        String key = getKey(keyParam);
         sendMessage(key);
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
@@ -154,11 +149,6 @@ public class H2CacheCache implements Cache {
 
     @Override
     public void clear() {
-//        Cache ehCache = ehCacheCacheManager.getCache(this.name);
-//        if (null != ehCache) {
-//            log.info("clear ehcache");
-//            ehCache.clear();
-//        }
         sendMessage(null);
         Cache redisCache = redisCacheManager.getCache(this.name);
         if (null != redisCache) {
@@ -168,12 +158,21 @@ public class H2CacheCache implements Cache {
     }
 
     private void sendMessage(Object key) {
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put("name",this.name);
-        if( null != key ){
-            params.put("key",key);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("name", this.name);
+        if (null != key) {
+            params.put("key", key);
         }
         String message = JSONObject.toJSONString(params);
         stringRedisTemplate.convertAndSend(Constant.H2CACHECACHEEVICTDISTRIBUTION, message);
+    }
+
+    private String getKey(Object keyParam) {
+        String key = JSONObject.toJSONString(keyParam);//TODO 还需要有更好的序列化方案
+        if ("{}".equals(key)) {
+            return keyParam.toString();
+        } else {
+            return key;
+        }
     }
 }
